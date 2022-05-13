@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const Usuario = require('./../models/user');
 const app = express();
 
+//Login
+
 app.post('/login', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     let body = req.body;
@@ -20,7 +22,8 @@ app.post('/login', function (req, res) {
                 ok: false,
                 err: {
                     message: "User or password incorrect, try again"
-                }
+                },
+                role: rolesValidos
             })
         } 
         if (! bcrypt.compareSync(body.password, usuarioDB.password)){
@@ -46,47 +49,9 @@ app.post('/login', function (req, res) {
     })
 });
 
-app.post('/loginc', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    let body = req.body;
-        Contador.findOne({ email: body.email }, (erro, usuarioDB)=>{
-        if (erro) {
-            return res.status(500).json({
-                ok: false,
-                role: rolesValidos,
-                err: erro
-            })
-        }
-        if (!usuarioDB) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Usuario o contraseña incorrectos"
-                }
-            })
-        } 
-        // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
-        if (! bcrypt.compareSync(body.password, usuarioDB.password)){
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Contraseña incorrecta"
-                }
-            });
-        }
-        // Genera el token de autenticación
-        let token = jwt.sign({
-            usuario: usuarioDB,
-        }, process.env.SEED_AUTENTICACION, {
-            expiresIn: process.env.CADUCIDAD_TOKEN
-        })
-        res.json({
-            ok: true,
-            usuario: usuarioDB,
-            token,
-        })
-    })
-});
+
+
+
 
 
 

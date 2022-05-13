@@ -8,17 +8,12 @@ const path = require('path');
 const cors = require("cors");
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
 // CORS
 var corsOptions = {
   origin: "http://localhost:3000"
 };
 app.use(cors(corsOptions));
-
-// parse application/json
 app.use(bodyParser.json())
-
-// Configuracion global de rutas
 app.use(require('./routes/routes'));
 
 let renderHTML = path.resolve(__dirname, '../public/index.html');
