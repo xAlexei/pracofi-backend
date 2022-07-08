@@ -17,6 +17,7 @@ app.post('/login', function (req, res) {
                 err: erro
             })
         }
+        //Valida que el usuario exista y la contraseña coincida
         if (!usuarioDB) {
             return res.status(400).json({
                 ok: false,

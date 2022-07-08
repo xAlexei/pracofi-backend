@@ -30,7 +30,7 @@ router.post('/newuser', async(req, res)=>{
 
 //Get Users
 
-router.get('/getuser', (req, res)=>{
+router.get('/getusers', (req, res)=>{
   UserModel
     .find()
     .then((data) => res.json(data))
@@ -55,6 +55,14 @@ router.put('/updateuser/:id', async (req, res) =>{
     return res.status(404).send('No existe');
   }
   res.status(204).send(user);
+});
+
+router.delete('/deleteuser/:id', (req, res)=>{
+  const { id } = req.params;
+  UserModel
+    .deleteMany({ _id: id})
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }))
 });
 
 module.exports = router;
