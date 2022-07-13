@@ -7,7 +7,6 @@ const app = express();
 //Login
 
 app.post('/login', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
     let body = req.body;
     Usuario.findOne({ email: body.email }, (erro, usuarioDB)=>{
         if (erro) {
@@ -23,10 +22,9 @@ app.post('/login', function (req, res) {
                 ok: false,
                 err: {
                     message: "User or password incorrect, try again"
-                },
-                role: rolesValidos
+                }
             })
-        } 
+        } //Compara la contraseña con la de la base de datos
         if (! bcrypt.compareSync(body.password, usuarioDB.password)){
             return res.status(400).json({
                 ok: false,
